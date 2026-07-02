@@ -11,6 +11,7 @@ from google.adk.agents import LlmAgent, SequentialAgent
 
 from cloud_company import DEFAULT_MODEL
 from cloud_company.tools.project_tools import save_document, read_document
+from cloud_company.tools.review_tools import review_gate
 
 _prompts_dir = Path(__file__).parent.parent / "prompts"
 
@@ -29,7 +30,7 @@ tech_blog_agent = LlmAgent(
         "インバウンドリード獲得によるクラウドワークス手数料ゼロ化・直接取引促進を目的とする。"
     ),
     instruction=_load_prompt("phase7_tech_blog.md"),
-    tools=[read_document, save_document],
+    tools=[read_document, save_document, review_gate],
     output_key="tech_blog_result",
 )
 
@@ -43,7 +44,7 @@ package_sales_agent = LlmAgent(
         "永続的なストックキャッシュフローへの転換によるLTV最大化を実現する。"
     ),
     instruction=_load_prompt("phase7_package_sales.md"),
-    tools=[read_document, save_document],
+    tools=[read_document, save_document, review_gate],
     output_key="package_sales_result",
 )
 

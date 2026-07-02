@@ -32,7 +32,7 @@ ui_mock_agent = LlmAgent(
     model=DEFAULT_MODEL,
     description="主要画面のワイヤーフレームを作成し、クライアントコンセンサスを獲得する。",
     instruction=_load_prompt("phase4_ui_mock.md"),
-    tools=[save_document],
+    tools=[save_document, review_gate],
     output_key="ui_mock_result",
 )
 
@@ -42,7 +42,7 @@ screen_detail_agent = LlmAgent(
     model=DEFAULT_MODEL,
     description="コンポーネント構造・状態遷移・バリデーションを定義した画面詳細設計書を作成する。",
     instruction=_load_prompt("phase4_screen_detail.md"),
-    tools=[save_document],
+    tools=[save_document, review_gate],
     output_key="screen_detail_result",
 )
 
@@ -62,7 +62,7 @@ frontend_impl_agent = LlmAgent(
     model=DEFAULT_MODEL,
     description="画面詳細設計とAPI仕様に基づきUI実装・APIクライアント連携・状態管理ロジックを実装する。",
     instruction=_load_prompt("phase4_frontend_impl.md"),
-    tools=[save_document],
+    tools=[save_document, review_gate],
     output_key="frontend_impl_result",
 )
 

@@ -14,6 +14,7 @@ from cloud_company import DEFAULT_MODEL
 from cloud_company.tools.project_tools import save_document
 from cloud_company.tools.manifesto_tools import load_manifesto
 from cloud_company.tools.hitl_tools import confirm_kickoff
+from cloud_company.tools.review_tools import review_gate
 
 _prompts_dir = Path(__file__).parent.parent / "prompts"
 
@@ -29,7 +30,7 @@ assign_agent = LlmAgent(
     model=DEFAULT_MODEL,
     description="FE/BE/インフラ/QAのメンバーを即座にアサインし、オンボーディングを完了する。",
     instruction=_load_prompt("phase3_assign.md"),
-    tools=[load_manifesto, save_document],
+    tools=[load_manifesto, save_document, review_gate],
     output_key="assign_result",
 )
 
@@ -39,7 +40,7 @@ infra_setup_agent = LlmAgent(
     model=DEFAULT_MODEL,
     description="2時間以内にGitHubリポジトリとCI/CDパイプライン、クラウド開発環境を構築して開発チームへ引き渡す。",
     instruction=_load_prompt("phase3_infra.md"),
-    tools=[save_document],
+    tools=[save_document, review_gate],
     output_key="infra_result",
 )
 
@@ -52,7 +53,7 @@ kickoff_meeting_agent = LlmAgent(
         "MTG後にPMO（人間）のキックオフ承認を取得してから開発フェーズへ移行する。"
     ),
     instruction=_load_prompt("phase3_kickoff_meeting.md"),
-    tools=[confirm_kickoff, save_document],
+    tools=[confirm_kickoff, save_document, review_gate],
     output_key="kickoff_result",
 )
 

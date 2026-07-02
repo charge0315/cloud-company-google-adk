@@ -13,6 +13,7 @@ from google.adk.agents import LlmAgent, SequentialAgent
 from cloud_company import DEFAULT_MODEL
 from cloud_company.tools.project_tools import save_document, read_document
 from cloud_company.tools.manifesto_tools import load_manifesto, load_workflow_reference
+from cloud_company.tools.review_tools import review_gate
 
 _prompts_dir = Path(__file__).parent.parent / "prompts"
 
@@ -31,7 +32,7 @@ incident_analysis_agent = LlmAgent(
         "フェーズ別の問題点・根本原因・影響度を自動分析して振り返りレポートを生成する。"
     ),
     instruction=_load_prompt("phase6_incident_analysis.md"),
-    tools=[read_document, save_document],
+    tools=[read_document, save_document, review_gate],
     output_key="incident_analysis_result",
 )
 
@@ -44,7 +45,7 @@ manifesto_update_agent = LlmAgent(
         "各エージェントのManifesto（行動憲章）に自動追記する（AgentOpsループ）。"
     ),
     instruction=_load_prompt("phase6_manifesto_update.md"),
-    tools=[load_manifesto, save_document],
+    tools=[load_manifesto, save_document, review_gate],
     output_key="manifesto_update_result",
 )
 
@@ -57,7 +58,7 @@ skill_gap_agent = LlmAgent(
         "共有スキルファイルを更新して全エージェントへ展開する。"
     ),
     instruction=_load_prompt("phase6_skill_gap.md"),
-    tools=[load_workflow_reference, save_document],
+    tools=[load_workflow_reference, save_document, review_gate],
     output_key="skill_gap_result",
 )
 

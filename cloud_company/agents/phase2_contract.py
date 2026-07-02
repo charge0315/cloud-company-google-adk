@@ -13,6 +13,7 @@ from cloud_company import DEFAULT_MODEL
 from cloud_company.tools.project_tools import save_document
 from cloud_company.tools.manifesto_tools import load_manifesto
 from cloud_company.tools.hitl_tools import confirm_payment_received
+from cloud_company.tools.review_tools import review_gate
 
 _prompts_dir = Path(__file__).parent.parent / "prompts"
 
@@ -31,7 +32,7 @@ scope_definition_agent = LlmAgent(
         "案件規模に応じたテーラリング判定を行う。"
     ),
     instruction=_load_prompt("phase2_scope.md"),
-    tools=[load_manifesto, save_document],
+    tools=[load_manifesto, save_document, review_gate],
     output_key="scope_result",
 )
 

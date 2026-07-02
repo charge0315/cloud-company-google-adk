@@ -33,7 +33,7 @@ delivery_package_agent = LlmAgent(
         "作成後に人間（PMO）の最終確認を HITL で取得する。"
     ),
     instruction=_load_prompt("phase5_delivery_package.md"),
-    tools=[confirm_delivery, save_document],
+    tools=[confirm_delivery, save_document, review_gate],
     output_key="delivery_package_result",
 )
 
@@ -46,7 +46,7 @@ formal_delivery_agent = LlmAgent(
         "正式納品メッセージと納品完了記録を生成する。"
     ),
     instruction=_load_prompt("phase5_formal_delivery.md"),
-    tools=[save_document],
+    tools=[save_document, review_gate],
     output_key="formal_delivery_result",
 )
 
@@ -59,7 +59,7 @@ cs_followup_agent = LlmAgent(
         "スコープ外追加要望の有償アップセル誘導を行う。"
     ),
     instruction=_load_prompt("phase5_cs_followup.md"),
-    tools=[save_document],
+    tools=[save_document, review_gate],
     output_key="cs_followup_result",
 )
 
