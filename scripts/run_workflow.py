@@ -29,6 +29,11 @@ from dotenv import load_dotenv
 
 load_dotenv(_project_root / ".env")
 
+# API キーは資格情報マネージャーから読む（cloud_company/keyring_env.py）。下の _check_api_key より前に呼ぶ。
+from cloud_company.keyring_env import load_keyring_secrets  # noqa: E402
+
+load_keyring_secrets()
+
 
 def _check_api_key() -> str:
     """利用可能な API キーを確認し、使用するモデルを返す。"""

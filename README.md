@@ -89,8 +89,7 @@ adk web cloud_company/
 
 ```powershell
 $env:PYTHONIOENCODING="utf-8"
-# Claude を優先使用
-$env:ANTHROPIC_API_KEY="sk-ant-..."
+# Claude を優先使用（キーは資格情報マネージャーから自動で読む。下の「API キーの置き場所」）
 py -3.11 scripts/run_workflow.py --project my-salon-saas --reqs "【案件名】美容室LINE予約..."
 
 # Gemini を使用
@@ -152,6 +151,14 @@ cloud-company-google-adk/
 | 2 | `GEMINI_API_KEY` が設定されている | Gemini 2.0 Flash |
 
 `cloud_company/__init__.py` の `get_default_model()` で自動選択されます。
+
+### API キーの置き場所（Windows、2026-11-08〜）
+
+`ANTHROPIC_API_KEY` は Windows の資格情報マネージャーに置き、ユーザー環境変数には置かない（ユーザー環境変数に置くと Claude Code の CLI まで同じキーを拾うため）。保存先のサービス名 `myworkspace` は ALPHA FORGE・cloud-company と共通で、`cloud_company` は起動時にここから読む（`cloud_company/keyring_env.py`）。`.env` に値があればそちらが優先される。登録は一度だけ、自分で入力する:
+
+```powershell
+py -3.11 -c "import keyring,getpass; keyring.set_password('myworkspace','ANTHROPIC_API_KEY', getpass.getpass('key: '))"
+```
 
 ---
 
