@@ -1,6 +1,6 @@
 """
 Cloud-Company Google ADK パッケージ初期化。
-モデル選択: ANTHROPIC_API_KEY が設定されている場合は Claude を優先、
+モデル選択: ANTHROPIC_API_KEY が設定されている場合（.env か資格情報マネージャー）は Claude を優先、
 未設定の場合は Gemini (gemini-2.5-flash) をデフォルトとする。
 """
 
@@ -20,6 +20,12 @@ else:
     _found = find_dotenv(usecwd=True)
     if _found:
         load_dotenv(_found, override=True)
+
+# API キーは資格情報マネージャーから読む（ユーザー環境変数に置かない。理由は keyring_env.py）。
+# .env を override=True で読んだあとに呼ぶので、.env の空の行で消されない。
+from .keyring_env import load_keyring_secrets  # noqa: E402
+
+load_keyring_secrets()
 
 
 # モデル選択ロジック

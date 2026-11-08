@@ -35,8 +35,10 @@ if (-not $envVars.ContainsKey("GOOGLE_API_KEY")) {
     return
 }
 
-$modelName = "Gemini 2.5 Flash (Google)"
-if ($envVars.ContainsKey("ANTHROPIC_API_KEY")) {
+# ANTHROPIC_API_KEY は .env に無くても、adk web の中で cloud_company が資格情報マネージャーから読む
+# （cloud_company/keyring_env.py）。ここでは確定できないので、.env にあるときだけ Claude と表示する。
+$modelName = "Gemini 2.5 Flash (Google)、資格情報マネージャーに ANTHROPIC_API_KEY があれば Claude"
+if ($envVars["ANTHROPIC_API_KEY"]) {
     $modelName = "Claude (Anthropic)"
 }
 
